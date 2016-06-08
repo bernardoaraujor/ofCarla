@@ -1,0 +1,12 @@
+﻿  ofApp.cpp
+C:\openFrameworks\libs\openFrameworks\math\ofMatrix4x4.h(320): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+C:\openFrameworks\libs\openFrameworks\math\ofMatrix4x4.h(325): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+C:\openFrameworks\libs\openFrameworks\math\ofMatrix4x4.h(969): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+C:\openFrameworks\libs\openFrameworks\math\ofMatrix4x4.h(970): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+C:\openFrameworks\libs\openFrameworks\math\ofMatrix4x4.h(971): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+C:\openFrameworks\libs\openFrameworks\math\ofMatrix4x4.h(972): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+  Carla.vcxproj -> C:\openFrameworks\apps\myApps\Carla\bin\Carla_debug.exe
+  
+  	                   9	C:\openFrameworks\export\vs\x64\
+  	  *EXTRA File 		 1266176	C:\openFrameworks\apps\myApps\Carla\bin\fmodex.dll
+  	  *EXTRA File 		 1312768	C:\openFrameworks\apps\myApps\Carla\bin\fmodexL.dll
