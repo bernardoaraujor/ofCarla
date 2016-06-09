@@ -18,6 +18,13 @@ class ofApp : public ofBaseApp{
 		ofxWMFVideoPlayer video;
 		ofxWMFVideoPlayer video2;
 
+		ofSerial serial;
+
+		float readTime;
+		bool send;
+
+		int sensor1, sensor2, sensor3;
+
 		void keyPressed(int key);
 		void keyReleased(int key);
 		void mouseMoved(int x, int y );

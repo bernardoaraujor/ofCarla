@@ -2,6 +2,7 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
+	ofSetVerticalSync(true);
 	ofBackground(0);
 
 	width1 = 1920;
@@ -17,23 +18,40 @@ void ofApp::setup(){
 	yCenter2 = height2 / 2;	
 
 	ofSetFrameRate(55);
-	video.load("a.mov");
+	video.load("b.mov");
+
+	if (serial.setup("COM6", 9600)) {
+		cout << "serial is setup!" << endl;
+	}
+	send = true;
+	readTime = 0;
 }
 
 //--------------------------------------------------------------
-void ofApp::update(){
+void ofApp::update() {
 	video.update();
-}
+
+	if (send) {
+		serial.writeByte('a');
+		send = false;
+		readTime = ofGetElapsedTimeMillis();
+	}else if ((serial.available()) && (ofGetElapsedTimeMillis() - readTime > 500)){
+		sensor1 = serial.readByte();
+		sensor2 = serial.readByte();
+		sensor3 = serial.readByte();
+
+		send = true;
+	}	
+}		
 
 //--------------------------------------------------------------
 void ofApp::draw(){
 	ofSetRectMode(OF_RECTMODE_CENTER);
 	video.draw(xCenter1, yCenter1);
-	
 
-	stringstream ss;
-	ss << "x:  " << xMouse << "y: " << yMouse;
-	//ofDrawBitmapString(ss.str(), 100, 100);
+	stringstream s;
+	s << "sensor 1: " << sensor1 << "cm \nsensor 2: " << sensor2 << "cm \nsensor 3: " << sensor3 << "cm";
+	ofDrawBitmapString(s.str(), 0, 10);
 }
 
 //--------------------------------------------------------------
