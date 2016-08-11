@@ -37,9 +37,10 @@ void ofApp::update() {
 		readTime = ofGetElapsedTimeMillis();
 	}else if ((serial.available()) && (ofGetElapsedTimeMillis() - readTime > 500)){
 		sensor1 = serial.readByte();
-		sensor2 = serial.readByte();
-		sensor3 = serial.readByte();
+		//sensor2 = serial.readByte();
+		//sensor3 = serial.readByte();
 
+		cout << sensor1 << endl;
 		send = true;
 	}	
 }		
@@ -64,7 +65,7 @@ void ofApp::keyPressed(int key){
 	}
 }
 
-//--------------------------------------------------------------
+//-------------------------------------------------//-------------
 void ofApp::keyReleased(int key){
 
 }
