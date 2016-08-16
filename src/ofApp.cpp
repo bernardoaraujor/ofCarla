@@ -18,7 +18,7 @@ void ofApp::setup(){
 	yCenter2 = height2 / 2;	
 
 	ofSetFrameRate(55);
-	video.load("b.mov");
+	video.loadMovie("b.mov");
 
 	if (serial.setup("COM6", 9600)) {
 		cout << "serial is setup!" << endl;
@@ -29,20 +29,32 @@ void ofApp::setup(){
 
 //--------------------------------------------------------------
 void ofApp::update() {
-	video.update();
-
 	if (send) {
 		serial.writeByte('a');
 		send = false;
-		readTime = ofGetElapsedTimeMillis();
-	}else if ((serial.available()) && (ofGetElapsedTimeMillis() - readTime > 500)){
-		sensor1 = serial.readByte();
-		//sensor2 = serial.readByte();
-		//sensor3 = serial.readByte();
+		readTime = ofGetElapsedTimeMillis();		
+	}else if ((serial.available()) && (ofGetElapsedTimeMillis() - readTime > 100)){
+		unsigned char bytes[6];
+		int result = serial.readBytes(&bytes[0], 6);
+
+		// check for error code
+		if (result == OF_SERIAL_ERROR){
+			// something bad happened
+			ofLog(OF_LOG_ERROR, "unrecoverable error reading from serial");
+		}else if (result == OF_SERIAL_NO_DATA){
+			// nothing was read, try again
+			ofLog(OF_LOG_ERROR, "read nothing");
+		}
+		
+		sensor1 = bytes[0];
+		sensor2 = bytes[2];
+		sensor3 = bytes[4];
 
 		cout << sensor1 << endl;
 		send = true;
 	}	
+
+	video.update();
 }		
 
 //--------------------------------------------------------------

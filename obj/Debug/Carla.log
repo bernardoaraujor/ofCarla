@@ -5,5 +5,9 @@ C:\openFrameworks\libs\openFrameworks\math\ofMatrix4x4.h(969): warning C4267: 'a
 C:\openFrameworks\libs\openFrameworks\math\ofMatrix4x4.h(970): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
 C:\openFrameworks\libs\openFrameworks\math\ofMatrix4x4.h(971): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
 C:\openFrameworks\libs\openFrameworks\math\ofMatrix4x4.h(972): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
-src\ofApp.cpp(21): error C2039: 'load': is not a member of 'ofxWMFVideoPlayer'
-  C:\openFrameworks\addons\ofxWMFVideoPlayer\src\ofxWMFVideoPlayer.h(20): note: see declaration of 'ofxWMFVideoPlayer'
+  Carla.vcxproj -> C:\openFrameworks\apps\myApps\ofCarla\bin\Carla_debug.exe
+  Carla.vcxproj -> bin\Carla_debug.pdb (Full PDB)
+  
+  	                   9	C:\openFrameworks\export\vs\x64\
+  	  *EXTRA File 		 1266176	C:\openFrameworks\apps\myApps\ofCarla\bin\fmodex.dll
+  	  *EXTRA File 		 1312768	C:\openFrameworks\apps\myApps\ofCarla\bin\fmodexL.dll
