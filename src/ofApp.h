@@ -15,8 +15,11 @@ class ofApp : public ofBaseApp{
 		int width2, height2, xCenter2, yCenter2;
 		int width3, height3, xCenter3, yCenter3;
 
-		ofxWMFVideoPlayer video;
+		ofxWMFVideoPlayer video1;
 		ofxWMFVideoPlayer video2;
+		ofxWMFVideoPlayer video3;
+		queue<int> queue1, queue2, queue3;
+		bool play1, play2, play3;
 
 		ofSerial serial;
 
@@ -24,7 +27,10 @@ class ofApp : public ofBaseApp{
 		bool send;
 
 		int sensor1, sensor2, sensor3;
+		float avg1, avg2, avg3;
 
+		int distThreshold;
+		
 		void keyPressed(int key);
 		void keyReleased(int key);
 		void mouseMoved(int x, int y );
