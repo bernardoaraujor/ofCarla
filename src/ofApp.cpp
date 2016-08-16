@@ -33,7 +33,7 @@ void ofApp::update() {
 		serial.writeByte('a');
 		send = false;
 		readTime = ofGetElapsedTimeMillis();		
-	}else if ((serial.available()) && (ofGetElapsedTimeMillis() - readTime > 100)){
+	}else if ((serial.available()) && (ofGetElapsedTimeMillis() - readTime > 500)){
 		unsigned char bytes[6];
 		int result = serial.readBytes(&bytes[0], 6);
 
@@ -46,11 +46,11 @@ void ofApp::update() {
 			ofLog(OF_LOG_ERROR, "read nothing");
 		}
 		
+		cout << "sensor1: " << sensor1 << ", sensor2: " << sensor2 << ", sensor3: " << sensor3 << endl;
 		sensor1 = bytes[0];
 		sensor2 = bytes[2];
 		sensor3 = bytes[4];
 
-		cout << sensor1 << endl;
 		send = true;
 	}	
 

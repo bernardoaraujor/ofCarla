@@ -4,8 +4,8 @@
 #define trigPin2 10
 #define echoPin2 11
 
-#define trigPin3 52
-#define echoPin3 51
+#define trigPin3 28
+#define echoPin3 50
 
 int duration, distance, Sensor1,BackSensor,Sensor2,Sensor3;
 char buf[6];
@@ -16,6 +16,8 @@ void setup() {
   pinMode(echoPin1, INPUT);
   pinMode(trigPin2, OUTPUT);
   pinMode(echoPin2, INPUT);
+  pinMode(trigPin3, OUTPUT);
+  pinMode(echoPin3, INPUT);
 }
 
 void loop() {
@@ -32,6 +34,7 @@ void loop() {
   if (Serial.available()){
     Serial.read();
     Serial.write(buf, 6);
+    //Serial.println(Sensor2);
   }
 }
 
