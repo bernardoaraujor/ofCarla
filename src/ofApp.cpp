@@ -24,13 +24,27 @@ void ofApp::setup(){
 	xCenter3 = width1 + width2 + width3 / 2;
 	yCenter3 = height3 / 2;
 
-	distThreshold = 30;
+	distThreshold = 50;
+	queueSize = 50;
 
 	ofSetFrameRate(55);
 
-	video1.loadMovie("b.mov");
-	video2.loadMovie("b.mov");
-	video3.loadMovie("b.mov");
+	dirAmer = ofDirectory("/america/");
+	dirAmer.listDir();
+	dirAsia = ofDirectory("/asia/");
+	dirAsia.listDir();
+	dirEuro = ofDirectory("/europa/");
+	dirEuro.listDir();
+	dirTest = ofDirectory("/test/");
+	dirTest.listDir();
+
+	//video1.loadMovie(dirAmer.getPath(ofRandom(0, dirAmer.size())));
+	//video2.loadMovie(dirAsia.getPath(ofRandom(0, dirAsia.size())));
+	//video3.loadMovie(dirEuro.getPath(ofRandom(0, dirEuro.size())));
+
+	video1.loadMovie(dirTest.getPath(ofRandom(0, dirTest.size())));
+	video2.loadMovie(dirTest.getPath(ofRandom(0, dirTest.size())));
+	video3.loadMovie(dirTest.getPath(ofRandom(0, dirTest.size())));
 
 	if (serial.setup("COM6", 9600)) {
 		cout << "serial is setup!" << endl;
@@ -68,17 +82,17 @@ void ofApp::update() {
 
 	if (sensor1 > 0) {
 		queue1.push(sensor1);
-		if (queue1.size() > 5)
+		if (queue1.size() > queueSize)
 			queue1.pop();
 	}
 	if (sensor2 > 0) {
 		queue2.push(sensor2);
-		if (queue2.size() > 5)
+		if (queue2.size() > queueSize)
 			queue2.pop();
 	}
 	if (sensor3 > 0) {
 		queue3.push(sensor3);
-		if (queue3.size() > 5)
+		if (queue3.size() > queueSize)
 			queue3.pop();
 	}	
 
@@ -119,31 +133,35 @@ void ofApp::update() {
 		avg3 /= queue3.size();
 	}
 
-	if (avg1 < distThreshold)
+	if (avg1 < distThreshold) {
+		if (play1 == false)
+			//video1.loadMovie(dirAmer.getPath(ofRandom(0, dirAmer.size())));
+			video1.loadMovie(dirTest.getPath(ofRandom(0, dirTest.size())));
 		play1 = true;
-	else
+	}else
 		play1 = false;
-	if (avg2 < distThreshold)
+	
+	if (avg2 < distThreshold) {
+		if (play2 == false)
+			//video2.loadMovie(dirAsia.getPath(ofRandom(0, dirAsia.size())));
+			video2.loadMovie(dirTest.getPath(ofRandom(0, dirTest.size())));
 		play2 = true;
-	else
+	}else
 		play2 = false;
-	if (avg3 < distThreshold)
-		play3 = true;
-	else
-		play3 = false;
 
-	video1.update();
-	video2.update();
-	video3.update();
+	if (avg3 < distThreshold) {
+		if (play3 == false)
+			//video3.loadMovie(dirEuro.getPath(ofRandom(0, dirEuro.size())));
+			video3.loadMovie(dirTest.getPath(ofRandom(0, dirTest.size())));
+		play3 = true;
+	}else
+		play3 = false;
 }		
 
 //--------------------------------------------------------------
 void ofApp::draw(){
 	ofSetRectMode(OF_RECTMODE_CENTER);
-	video1.draw(xCenter1, yCenter1);
-	video2.draw(xCenter2, yCenter2);
-	video3.draw(xCenter3, yCenter3);
-
+	
 	stringstream s;
 	s << "sensor 1: " << sensor1 << "cm \nsensor 2: " << sensor2 << "cm \nsensor 3: " << sensor3 << "cm" << endl;
 	s << "queue1: " << avg1 << endl;
@@ -151,12 +169,21 @@ void ofApp::draw(){
 	s << "queue3: " << avg3 << endl;
 	ofDrawBitmapString(s.str(), 0, 10);
 
-	if (play1)
+	if (play1) {
+		video1.draw(xCenter1, yCenter1);
 		video1.play();
-	if (play2)
+		//play1 = false;
+	}
+	if (play2) {
+		video2.draw(xCenter2, yCenter2);
 		video2.play();
-	if (play3)
+		//play1 = false;
+	}
+	if (play3) {
+		video3.draw(xCenter3, yCenter3);
 		video3.play();
+		//play3 = false;
+	}			
 }
 
 //--------------------------------------------------------------

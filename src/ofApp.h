@@ -15,11 +15,15 @@ class ofApp : public ofBaseApp{
 		int width2, height2, xCenter2, yCenter2;
 		int width3, height3, xCenter3, yCenter3;
 
+		ofDirectory dirEuro, dirAsia, dirAmer, dirTest;
+
 		ofxWMFVideoPlayer video1;
 		ofxWMFVideoPlayer video2;
 		ofxWMFVideoPlayer video3;
+		int queueSize;
 		queue<int> queue1, queue2, queue3;
 		bool play1, play2, play3;
+		bool load1, load2, load3;
 
 		ofSerial serial;
 
