@@ -59,6 +59,7 @@ void ofApp::update() {
 		send = false;
 		readTime = ofGetElapsedTimeMillis();		
 	}else if ((serial.available()) && (ofGetElapsedTimeMillis() - readTime > 100)){
+		//cout << "aqui" << endl;
 		sensor1 = serial.readByte();
 		sensor2 = serial.readByte();
 		//sensor3 = serial.readByte();
@@ -76,21 +77,21 @@ void ofApp::update() {
 		send = true;
 	}	
 
-	if (sensor1 == 0) {
+	if (sensor1 == 48) {
 		if (play1 == false)
 			//video1.loadMovie(dirAmer.getPath(ofRandom(0, dirAmer.size())));
 			video1.loadMovie(dirTest.getPath(ofRandom(0, dirTest.size())));
 		play1 = true;
 	}
 	
-	if (sensor2 == 0) {
+	if (sensor2 == 48) {
 		if (play2 == false)
 			//video2.loadMovie(dirAsia.getPath(ofRandom(0, dirAsia.size())));
 			//video2.loadMovie(dirTest.getPath(ofRandom(0, dirTest.size())));
 		play2 = true;
 	}
 
-	if (sensor3 == 0) {
+	if (sensor3 == 48) {
 		if (play3 == false)
 			//video3.loadMovie(dirEuro.getPath(ofRandom(0, dirEuro.size())));
 			//video3.loadMovie(dirTest.getPath(ofRandom(0, dirTest.size())));

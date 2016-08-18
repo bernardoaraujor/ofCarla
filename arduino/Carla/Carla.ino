@@ -16,20 +16,21 @@ void loop() {
   sensores[1] = digitalRead(portSensor2);
   //sensores[2] = digitalRead(portSensor3);
 
-  if (Serial.available()){
+  //Serial.print(sensores[0]); 
+
+ if (Serial.available()){
     Serial.read();
+      
     if (sensores[0]){
-      Serial.write(1);
+      Serial.print(1);
     }else{
-      Serial.write(0);
+      Serial.print(0);
     }
       
     if (sensores[1]){
-      Serial.write(1);
+      Serial.print(1);
     }else{
-      Serial.write(0);
-    }  
-    
-    //Serial.print(sensores[2], BIN);   
-  }
+      Serial.print(0);
+    }      
+  } 
 }
