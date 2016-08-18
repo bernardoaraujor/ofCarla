@@ -25,7 +25,6 @@ void ofApp::setup(){
 	yCenter3 = height3 / 2;
 
 	distThreshold = 50;
-	queueSize = 50;
 
 	ofSetFrameRate(55);
 
@@ -38,15 +37,15 @@ void ofApp::setup(){
 	dirTest = ofDirectory("/test/");
 	dirTest.listDir();
 
-	//video1.loadMovie(dirAmer.getPath(ofRandom(0, dirAmer.size())));
-	//video2.loadMovie(dirAsia.getPath(ofRandom(0, dirAsia.size())));
-	//video3.loadMovie(dirEuro.getPath(ofRandom(0, dirEuro.size())));
+	video1.setLoop(false);
+	video2.setLoop(false);
+	video3.setLoop(false);
 
-	video1.loadMovie(dirTest.getPath(ofRandom(0, dirTest.size())));
-	video2.loadMovie(dirTest.getPath(ofRandom(0, dirTest.size())));
-	video3.loadMovie(dirTest.getPath(ofRandom(0, dirTest.size())));
+	play1 = false;
+	play2 = false;
+	play3 = false;
 
-	if (serial.setup("COM6", 9600)) {
+	if (serial.setup("COM3", 9600)) {
 		cout << "serial is setup!" << endl;
 	}
 	send = true;
@@ -59,103 +58,47 @@ void ofApp::update() {
 		serial.writeByte('a');
 		send = false;
 		readTime = ofGetElapsedTimeMillis();		
-	}else if ((serial.available()) && (ofGetElapsedTimeMillis() - readTime > 500)){
-		unsigned char bytes[6];
-		int result = serial.readBytes(&bytes[0], 6);
+	}else if ((serial.available()) && (ofGetElapsedTimeMillis() - readTime > 100)){
+		sensor1 = serial.readByte();
+		sensor2 = serial.readByte();
+		//sensor3 = serial.readByte();
 
 		// check for error code
-		if (result == OF_SERIAL_ERROR){
+		if ((sensor1 == OF_SERIAL_ERROR) || (sensor2 == OF_SERIAL_ERROR)){
 			// something bad happened
 			ofLog(OF_LOG_ERROR, "unrecoverable error reading from serial");
-		}else if (result == OF_SERIAL_NO_DATA){
+		}else if ((sensor1 == OF_SERIAL_NO_DATA) || (sensor2 == OF_SERIAL_NO_DATA)){
 			// nothing was read, try again
 			ofLog(OF_LOG_ERROR, "read nothing");
 		}
 		
 		cout << "sensor1: " << sensor1 << ", sensor2: " << sensor2 << ", sensor3: " << sensor3 << endl;
-		sensor1 = bytes[0];
-		sensor2 = bytes[2];
-		sensor3 = bytes[4];
-
 		send = true;
-	}
-
-	if (sensor1 > 0) {
-		queue1.push(sensor1);
-		if (queue1.size() > queueSize)
-			queue1.pop();
-	}
-	if (sensor2 > 0) {
-		queue2.push(sensor2);
-		if (queue2.size() > queueSize)
-			queue2.pop();
-	}
-	if (sensor3 > 0) {
-		queue3.push(sensor3);
-		if (queue3.size() > queueSize)
-			queue3.pop();
 	}	
 
-	if (queue1.size() > 0) {
-		avg1 = 0;
-		for (int i = 0; i < queue1.size(); i++) {
-			int l = queue1.front();
-
-			queue1.pop();
-			queue1.push(l);
-
-			avg1 += l;
-		}
-		avg1 /= queue1.size();
-	}
-	if (queue2.size() > 0) {
-		avg2 = 0;
-		for (int i = 0; i < queue2.size(); i++) {
-			int l = queue2.front();
-
-			queue2.pop();
-			queue2.push(l);
-
-			avg2 += l;
-		}
-		avg2 /= queue2.size();
-	}
-	if (queue3.size() > 0) {
-		avg3 = 0;
-		for (int i = 0; i < queue1.size(); i++) {
-			int l = queue3.front();
-
-			queue3.pop();
-			queue3.push(l);
-
-			avg3 += l;
-		}
-		avg3 /= queue3.size();
-	}
-
-	if (avg1 < distThreshold) {
+	if (sensor1 == 0) {
 		if (play1 == false)
 			//video1.loadMovie(dirAmer.getPath(ofRandom(0, dirAmer.size())));
 			video1.loadMovie(dirTest.getPath(ofRandom(0, dirTest.size())));
 		play1 = true;
-	}else
-		play1 = false;
+	}
 	
-	if (avg2 < distThreshold) {
+	if (sensor2 == 0) {
 		if (play2 == false)
 			//video2.loadMovie(dirAsia.getPath(ofRandom(0, dirAsia.size())));
-			video2.loadMovie(dirTest.getPath(ofRandom(0, dirTest.size())));
+			//video2.loadMovie(dirTest.getPath(ofRandom(0, dirTest.size())));
 		play2 = true;
-	}else
-		play2 = false;
+	}
 
-	if (avg3 < distThreshold) {
+	if (sensor3 == 0) {
 		if (play3 == false)
 			//video3.loadMovie(dirEuro.getPath(ofRandom(0, dirEuro.size())));
-			video3.loadMovie(dirTest.getPath(ofRandom(0, dirTest.size())));
+			//video3.loadMovie(dirTest.getPath(ofRandom(0, dirTest.size())));
 		play3 = true;
-	}else
-		play3 = false;
+	}
+
+	if (video1.getPosition() > video1.getDuration() - 0.5)
+		play1 = false;
 }		
 
 //--------------------------------------------------------------
@@ -163,10 +106,8 @@ void ofApp::draw(){
 	ofSetRectMode(OF_RECTMODE_CENTER);
 	
 	stringstream s;
-	s << "sensor 1: " << sensor1 << "cm \nsensor 2: " << sensor2 << "cm \nsensor 3: " << sensor3 << "cm" << endl;
-	s << "queue1: " << avg1 << endl;
-	s << "queue2: " << avg2 << endl;
-	s << "queue3: " << avg3 << endl;
+	s << "sensor 1: " << sensor1 << " \nsensor 2: " << sensor2 << " \nsensor 3: " << sensor3 << endl;
+	s << "position 1: " << video1.getPosition() << ", duration 1:" << video1.getDuration() << endl;
 	ofDrawBitmapString(s.str(), 0, 10);
 
 	if (play1) {

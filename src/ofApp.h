@@ -20,8 +20,7 @@ class ofApp : public ofBaseApp{
 		ofxWMFVideoPlayer video1;
 		ofxWMFVideoPlayer video2;
 		ofxWMFVideoPlayer video3;
-		int queueSize;
-		queue<int> queue1, queue2, queue3;
+
 		bool play1, play2, play3;
 		bool load1, load2, load3;
 

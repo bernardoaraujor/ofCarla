@@ -1,51 +1,35 @@
-#define trigPin1 8
-#define echoPin1 9
+#define portSensor1 9
+#define portSensor2 11
+#define portSensor3 50
 
-#define trigPin2 10
-#define echoPin2 11
-
-#define trigPin3 28
-#define echoPin3 50
-
-int duration, distance, Sensor1,BackSensor,Sensor2,Sensor3;
-char buf[6];
+bool sensores[3];
 
 void setup() {
   Serial.begin(9600);
-  pinMode(trigPin1, OUTPUT);
-  pinMode(echoPin1, INPUT);
-  pinMode(trigPin2, OUTPUT);
-  pinMode(echoPin2, INPUT);
-  pinMode(trigPin3, OUTPUT);
-  pinMode(echoPin3, INPUT);
+  pinMode(portSensor1, INPUT);
+  pinMode(portSensor2, INPUT);
+  pinMode(portSensor3, INPUT);
 }
 
 void loop() {
-  SonarSensor(trigPin1, echoPin1);
-  Sensor1 = distance;
-  SonarSensor(trigPin2, echoPin2);
-  Sensor2 = distance;
-  SonarSensor(trigPin3, echoPin3);
-  Sensor3 = distance;
+  sensores[0] = digitalRead(portSensor1);
+  sensores[1] = digitalRead(portSensor2);
+  //sensores[2] = digitalRead(portSensor3);
 
-  buf[0] = Sensor1;
-  buf[2] = Sensor2;
-  buf[4] = Sensor3;
   if (Serial.available()){
     Serial.read();
-    Serial.write(buf, 6);
-    //Serial.println(Sensor2);
+    if (sensores[0]){
+      Serial.write(1);
+    }else{
+      Serial.write(0);
+    }
+      
+    if (sensores[1]){
+      Serial.write(1);
+    }else{
+      Serial.write(0);
+    }  
+    
+    //Serial.print(sensores[2], BIN);   
   }
-}
-
-void SonarSensor(int trigPin,int echoPin)
-{
-digitalWrite(trigPin, LOW);
-delayMicroseconds(2);
-digitalWrite(trigPin, HIGH);
-delayMicroseconds(10);
-digitalWrite(trigPin, LOW);
-duration = pulseIn(echoPin, HIGH);
-distance = (duration/2) / 29.1;
-
 }
