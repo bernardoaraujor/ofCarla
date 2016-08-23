@@ -15,7 +15,7 @@ class ofApp : public ofBaseApp{
 		int width2, height2, xCenter2, yCenter2;
 		int width3, height3, xCenter3, yCenter3;
 
-		ofDirectory dirEuro, dirAsia, dirAmer, dirTest;
+		ofDirectory dirEurasia, dirAsia, dirAmer, dirTest;
 
 		ofxWMFVideoPlayer video1;
 		ofxWMFVideoPlayer video2;

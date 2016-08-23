@@ -14,7 +14,7 @@ void setup() {
 void loop() {
   sensores[0] = digitalRead(portSensor1);
   sensores[1] = digitalRead(portSensor2);
-  //sensores[2] = digitalRead(portSensor3);
+  sensores[2] = digitalRead(portSensor3);
 
   //Serial.print(sensores[0]); 
 
@@ -31,6 +31,12 @@ void loop() {
       Serial.print(1);
     }else{
       Serial.print(0);
-    }      
+    }  
+
+    if (sensores[2]){
+      Serial.print(1);
+    }else{
+      Serial.print(0);
+    }  
   } 
 }
